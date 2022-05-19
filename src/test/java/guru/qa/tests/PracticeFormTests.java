@@ -6,6 +6,8 @@ import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Locale;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
@@ -23,7 +25,7 @@ public class PracticeFormTests {
     @Test
     void fillFormTest() {
 
-        Faker faker = new Faker();
+        Faker faker = new Faker(new Locale("en"));
 
         String firstName = faker.name().firstName(),
                 lastName = faker.name().lastName(),
