@@ -1,13 +1,15 @@
-package guru.qa;
+package guru.qa.tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
+import static java.lang.String.format;
 
 public class PracticeFormTests {
 
@@ -21,17 +23,21 @@ public class PracticeFormTests {
     @Test
     void fillFormTest() {
 
-        String firstName = "Ivan";
-        String lastName = "Ivanov";
-        String userEmail = "IvanIvanov@mail.com";
-        String gender = "Male";
-        String userNumber = "1234567890";
-        String subjectsInput = "Math";
-        String hobbies = "Music";
-        String currentAddress = "Saint-P, Nevskiy, 1";
-        String state = "NCR";
-        String city = "Delhi";
-        String month = "September";
+        Faker faker = new Faker();
+
+        String firstName = faker.name().firstName(),
+                lastName = faker.name().lastName(),
+                fullName = format("%s %s", firstName, lastName ),
+                userEmail = faker.internet().emailAddress(),
+                gender = "Male",
+                userNumber = faker.phoneNumber().subscriberNumber(10),
+                subjectsInput = "Math",
+                hobbies = "Music",
+                currentAddress = faker.address().fullAddress(),
+                state = "NCR",
+                city = "Delhi",
+                month = "September";
+
         SelenideElement tableResponsive = $(".table-responsive");
 
         open("/automation-practice-form");
@@ -60,8 +66,8 @@ public class PracticeFormTests {
         $("#submit").click();
 
         //Asserts
-        $("#example-modal-sizes-title-lg").$(byText("Thanks for submitting the form"));
-        $(tableResponsive).$(byText("Student Name")).parent().shouldHave(text(firstName+ " "+lastName));
+        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
+        $(tableResponsive).$(byText("Student Name")).parent().shouldHave(text(fullName));
         $(tableResponsive).$(byText("Student Email")).parent().shouldHave(text(userEmail));
         $(tableResponsive).$(byText("Gender")).parent().shouldHave(text(gender));
         $(tableResponsive).$(byText("Mobile")).parent().shouldHave(text(userNumber));
