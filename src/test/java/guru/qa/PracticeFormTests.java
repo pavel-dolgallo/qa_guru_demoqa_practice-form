@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeFormTests {
 
@@ -32,9 +31,14 @@ public class PracticeFormTests {
         String currentAddress = "Saint-P, Nevskiy, 1";
         String state = "NCR";
         String city = "Delhi";
+        String month = "September";
         SelenideElement tableResponsive = $(".table-responsive");
 
         open("/automation-practice-form");
+
+        executeJavaScript("$('footer').remove()");
+        executeJavaScript("$('#fixedban').remove()");
+
 
         $("#firstName").setValue(firstName);
         $("#lastName").setValue(lastName);
@@ -42,7 +46,7 @@ public class PracticeFormTests {
         $(byText(gender)).click();
         $("#userNumber").setValue(userNumber);
         $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("September");
+        $(".react-datepicker__month-select").selectOption(month);
         $(".react-datepicker__year-select").selectOption("1989");
         $("[aria-label$='September 28th, 1989']").click();
         $("#subjectsInput").setValue(subjectsInput).pressEnter();
