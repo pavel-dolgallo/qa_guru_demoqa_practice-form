@@ -1,17 +1,13 @@
 package guru.qa.tests;
 
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
-import guru.qa.page.PracticeFormPage;
+import guru.qa.pages.PracticeFormPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
 import static java.lang.String.format;
 
 public class PracticeFormPageObjectsTests {
@@ -36,6 +32,10 @@ public class PracticeFormPageObjectsTests {
                 userEmail = faker.internet().emailAddress(),
                 gender = "Male",
                 userNumber = faker.phoneNumber().subscriberNumber(10),
+                day = "28",
+                month = "September",
+                year = "1989",
+                dataBirth = format("%s %s,%s", day, month, year),
                 subjects = "Math",
                 hobbies = "Music",
                 currentAddress = faker.address().fullAddress(),
@@ -44,13 +44,13 @@ public class PracticeFormPageObjectsTests {
                 file = "picture.png",
                 title = "Thanks for submitting the form";
 
-
         practiceFormPage.openPage()
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setUserEmail(userEmail)
                 .setGender(gender)
                 .setUserNumber(userNumber)
+                .setBirthDate(day, month, year)
                 .setCurrentAddress(currentAddress)
                 .setState(state)
                 .setCity(city)
@@ -59,13 +59,6 @@ public class PracticeFormPageObjectsTests {
                 .hobbiesInput(hobbies)
                 .setSubmit();
 
-
-        //$("dateOfBirthInput").click();
-        //$(".react-datepicker__month-select").selectOption(month);
-        //$(".react-datepicker__year-select").selectOption("1989");
-        //$("[aria-label$='September 28th, 1989']").click();
-
-
         //Asserts
         practiceFormPage
                 .checkTitle(title)
@@ -73,7 +66,7 @@ public class PracticeFormPageObjectsTests {
                 .checkResult("Student Email", userEmail)
                 .checkResult("Gender", gender)
                 .checkResult("Mobile", userNumber)
-                //.checkResult("Date of Birth", userNumber)
+                .checkResult("Date of Birth", dataBirth)
                 .checkResult("Subjects", subjects)
                 .checkResult("Hobbies", hobbies)
                 .checkResult("Picture", "picture.png")
@@ -81,5 +74,4 @@ public class PracticeFormPageObjectsTests {
                 .checkResult("State and City", state + " " + city);
 
     }
-
 }

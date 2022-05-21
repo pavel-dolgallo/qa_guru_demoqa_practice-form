@@ -1,6 +1,7 @@
-package guru.qa.page;
+package guru.qa.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import guru.qa.pages.components.CalendarComponent;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
@@ -8,29 +9,28 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeFormPage {
 
+    CalendarComponent calendar = new CalendarComponent();
     //locators
-    SelenideElement tableResponsive = $(".table-responsive");
-    SelenideElement firstNameInput = $("#firstName");
-    SelenideElement lastNameInput = $("#lastName");
-    SelenideElement userEmailInput = $("#userEmail");
-    SelenideElement userNumberInput = $("#userNumber");
-    //SelenideElement dateOfBirthInput =   $("#dateOfBirthInput");
-    SelenideElement currentAddressInput = $("#currentAddress");
-    SelenideElement stateInput = $("#state");
-    SelenideElement cityInput = $("#city");
-    SelenideElement submitInput = $("#submit");
-    SelenideElement uploadPictureInput = $("#uploadPicture");
-    SelenideElement subjectsInput = $("#subjectsInput");
-    SelenideElement titleText = $("#example-modal-sizes-title-lg");
+    SelenideElement tableResponsive = $(".table-responsive"),
+            firstNameInput = $("#firstName"),
+            lastNameInput = $("#lastName"),
+            userEmailInput = $("#userEmail"),
+            userNumberInput = $("#userNumber"),
+            dateOfBirth = $("#dateOfBirthInput"),
+            currentAddressInput = $("#currentAddress"),
+            stateInput = $("#state"),
+            cityInput = $("#city"),
+            submitInput = $("#submit"),
+            uploadPictureInput = $("#uploadPicture"),
+            subjectsInput = $("#subjectsInput"),
+            titleText = $("#example-modal-sizes-title-lg");
 
 
     //actions
     public PracticeFormPage openPage() {
         open("/automation-practice-form");
-
         executeJavaScript("$('footer').remove()");
         executeJavaScript("$('#fixedban').remove()");
-
         return this;
     }
 
@@ -56,6 +56,12 @@ public class PracticeFormPage {
 
     public PracticeFormPage setUserNumber(String userNumber) {
         userNumberInput.setValue(userNumber);
+        return this;
+    }
+
+    public PracticeFormPage setBirthDate(String day, String month, String year) {
+        dateOfBirth.click();
+        calendar.setDate(day, month, year);
         return this;
     }
 
